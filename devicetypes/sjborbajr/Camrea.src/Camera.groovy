@@ -1,288 +1,53 @@
 /** 
- *  
- *  Reolink Camera Device v0.1
- *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- *  in compliance with the License. You may obtain a copy of the License at:
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
- *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
- *  for the specific language governing permissions and limitations under the License.
- *
-*/
-capability "Audio Mute" #https://docs.smartthings.com/en/latest/capabilities-reference.html#audio-mute
-# reviewed 2018-02-01
-name: Audio Mute
-status: live
-attributes:
-  mute:
-    schema:
-      type: object
-      properties:
-        value:
-          $ref: MuteState
-      required:
-        - value
-    type: ENUM
-    values:
-      - muted
-      - unmuted
-    setter: setMute
-    enumCommands:
-      - command: mute
-        value: muted
-      - command: unmute
-        value: unmuted
-commands:
-  setMute:
-    arguments:
-    - name: state
-      required: true
-      schema:
-        $ref: MuteState
-      type: ENUM
-      values:
-        - muted
-        - unmuted
-  mute:
-    arguments: [
-      ]
-  unmute:
-    arguments: [
-      ]
-public: true
-id: audioMute
-version: 1
-        capability "Image Capture" #https://docs.smartthings.com/en/latest/capabilities-reference.html#image-capture
-# reviewed 2018-2-20
-name: Image Capture
-status: proposed
-attributes:
-  image:
-    schema:
-      type: object
-      properties:
-        value:
-          $ref: URL
-      required:
-        - value
-    type: STRING
-    setter: take
-commands:
-  take:
-    arguments: [
-      ]
-public: true
-id: imageCapture
-ocfResourceType: x.com.st.imagecapture
-version: 1
-        capability "Light" #https://docs.smartthings.com/en/latest/capabilities-reference.html#light
-# reviewed 2018-01-11
-name: Light
-status: deprecated
-attributes:
-  switch:
-    schema:
-      type: object
-      properties:
-        value:
-          $ref: SwitchState
-      required: ["value"]
-    type: ENUM
-    values:
-      - 'off'
-      - 'on'
-    enumCommands:
-      - command: 'on'
-        value: 'on'
-      - command: 'off'
-        value: 'off'
-commands:
-  'off':
-    arguments: [
-      ]
-  'on':
-    arguments: [
-      ]
-public: true
-id: light
-version: 1
-        capability "Motion Sensor" #https://docs.smartthings.com/en/latest/capabilities-reference.html#refresh
-# reviewed 2018-01-09
-name: Motion Sensor
-status: live
-attributes:
-  motion:
-    schema:
-      type: object
-      properties:
-        value:
-          $ref: ActivityState
-      required: ["value"]
-    type: ENUM
-    values:
-      - active
-      - inactive
-commands: {
-  }
-public: true
-id: motionSensor
-ocfResourceType: oic.r.sensor.motion
-version: 1
-        capability "Refresh" #https://docs.smartthings.com/en/latest/capabilities-reference.html#refresh
-# reviewed 2018-2-13
-name: Refresh
-status: live
-attributes: {
-  }
-commands:
-  refresh:
-    arguments: [
-      ]
-public: true
-id: refresh
-version: 1
-        capability "Signal Strength"  #https://docs.smartthings.com/en/latest/capabilities-reference.html#refresh
-# reviewed 2018-2-13
-name: Signal Strength
-status: live
-attributes:
-  lqi:
-    schema:
-      type: object
-      properties:
-        value:
-          type: integer
-          minimum: 0
-          maximum: 255
-      required:
-        - value
-    type: NUMBER
-  rssi:
-    schema:
-      type: object
-      properties:
-        value:
-          type: number
-          minimum: -200
-          maximum: 0
-        unit:
-          type: string
-          enum:
-            - dBm
-          default: dBm
-      required:
-        - value
-    type: NUMBER
-commands: {
-  }
-public: true
-id: signalStrength
-ocfResourceType: x.com.st.signalstrength
-version: 1
-        capability "Video Clips" #https://docs.smartthings.com/en/latest/capabilities-reference.html#video-clips
-name: Video Clips
-status: proposed
-attributes:
-  videoClip:
-    schema:
-       type: object
-       properties:
-         value:
-           $ref: VideoClip
-       required:
-         - value
-    type: JSON_OBJECT
-    actedOnBy:
-      - captureClip
-commands:
-  captureClip:
-    arguments:
-      - name: duration
-        required: true
-        schema:
-          $ref: PositiveInteger
-        type: NUMBER
-      - name: preFetch
-        required: true
-        schema:
-          $ref: PositiveInteger
-        type: NUMBER
-public: true
-id: videoClips
-version: 1
-        capability "Video Stream" #https://docs.smartthings.com/en/latest/capabilities-reference.html#video-stream
-# reviewed 2018-02-15
-name: Voltage Measurement
-status: live
-attributes:
-  voltage:
-    schema:
-      type: object
-      properties:
-        value:
-          $ref: Number
-        unit:
-          type: string
-          enum:
-            - V
-          default: V
-      required:
-        - value
-    type: NUMBER
-commands: {
-  }
-public: true
-id: voltageMeasurement
-version: 1
-/**
- *  	Denon Network Receiver 
- *    	Based on Denon/Marantz receiver by Kristopher Kubicki
- *    	Based on Denon AVR by Bobby Dobrescu
- *    	SmartThings driver to connect your Denon Network Receiver to SmartThings
+*  
+*  Reolink Camera Device v0.1
+* https://docs.smartthings.com/en/latest/capabilities-reference.html#audio-mute
+* https://docs.smartthings.com/en/latest/capabilities-reference.html#motion-sensor
+* https://docs.smartthings.com/en/latest/capabilities-reference.html#refresh
+* https://docs.smartthings.com/en/latest/capabilities-reference.html#signal-strength
+* 
+
+* Proposed:
+*   https://docs.smartthings.com/en/latest/capabilities-reference.html#image-capture
+*   https://docs.smartthings.com/en/latest/capabilities-reference.html#video-clips
+*   https://docs.smartthings.com/en/latest/capabilities-reference.html#video-stream
 */
 
 metadata {
     definition (name: "Denon AVR", namespace: "sjborbajr", 
         author: "Steve Borba") {
+        capability "Audio Mute"
+        capability "Motion Sensor"
+        capability "Refresh"
+        capability "Signal Strength"
         capability "Switch" 
-        capability "Polling"
-        capability "Switch Level"
-        
-        attribute "mute", "string"
-        attribute "input", "string"     
-        attribute "cbl", "string"
-        attribute "tv", "string"
-		attribute "dvd", "string"
-		attribute "bd", "string"
-		attribute "mp", "string"
-		attribute "cd", "string"
-		attribute "game", "string"
-
-        command "mute"
-        command "unmute"
-        command "toggleMute"
-		command "cbl"
-		command "tv"
-		command "bd"
-		command "dvd"
-		command "mp"
-		command "cd"
-		command "game"
-		command "sMovie"
-		command "sMusic"
-		command "sPure"
-		command "sGame"
-
 }
+metadata {
+	definition (name: "Generic Camera", namespace: "pstuart", author: "patrick@patrickstuart.com") {
+		capability "Image Capture"
+		capability "Sensor"
+		capability "Actuator"
+        
+		attribute "hubactionMode", "string"
+        
+	}
 
 preferences {
     input("destIp", "text", title: "IP", description: "The device IP")
     input("destPort", "number", title: "Port", description: "The port you wish to connect", defaultValue: 80)
-	input(title: "Denon AVR version: ${getVersionTxt()}" ,description: null, type : "paragraph")
+    input(title: "Denon AVR version: ${getVersionTxt()}" ,description: null, type : "paragraph")
 }
+
+preferences {
+    input("CameraIP", "string", title:"Camera IP Address", description: "Please enter your camera's IP Address", required: true, displayDuringSetup: true)
+    input("CameraPort", "string", title:"Camera Port", description: "Please enter your camera's Port", defaultValue: 80 , required: true, displayDuringSetup: true)
+    input("CameraPath", "string", title:"Camera Path to Image", description: "Please enter the path to the image", defaultValue: "/SnapshotJPEG?Resolution=640x480&Quality=Clarity", required: true, displayDuringSetup: true)
+    input("CameraAuth", "bool", title:"Does Camera require User Auth?", description: "Please choose if the camera requires authentication (only basic is supported)", defaultValue: true, displayDuringSetup: true)
+    input("CameraPostGet", "string", title:"Does Camera use a Post or Get, normally Get?", description: "Please choose if the camera uses a POST or a GET command to retreive the image", defaultValue: "GET", displayDuringSetup: true)
+    input("CameraUser", "string", title:"Camera User", description: "Please enter your camera's username", required: false, displayDuringSetup: true)
+    input("CameraPassword", "string", title:"Camera Password", description: "Please enter your camera's password", required: false, displayDuringSetup: true)
+	}
+
 
     simulator {
         // TODO-: define status and reply messages here
@@ -509,25 +274,6 @@ def parse(String description) {
     def getVersionTxt(){
         return "0.4"
     }
-metadata {
-	definition (name: "Generic Camera", namespace: "pstuart", author: "patrick@patrickstuart.com") {
-		capability "Image Capture"
-		capability "Sensor"
-		capability "Actuator"
-        
-		attribute "hubactionMode", "string"
-        
-	}
-
-    preferences {
-    input("CameraIP", "string", title:"Camera IP Address", description: "Please enter your camera's IP Address", required: true, displayDuringSetup: true)
-    input("CameraPort", "string", title:"Camera Port", description: "Please enter your camera's Port", defaultValue: 80 , required: true, displayDuringSetup: true)
-    input("CameraPath", "string", title:"Camera Path to Image", description: "Please enter the path to the image", defaultValue: "/SnapshotJPEG?Resolution=640x480&Quality=Clarity", required: true, displayDuringSetup: true)
-    input("CameraAuth", "bool", title:"Does Camera require User Auth?", description: "Please choose if the camera requires authentication (only basic is supported)", defaultValue: true, displayDuringSetup: true)
-    input("CameraPostGet", "string", title:"Does Camera use a Post or Get, normally Get?", description: "Please choose if the camera uses a POST or a GET command to retreive the image", defaultValue: "GET", displayDuringSetup: true)
-    input("CameraUser", "string", title:"Camera User", description: "Please enter your camera's username", required: false, displayDuringSetup: true)
-    input("CameraPassword", "string", title:"Camera Password", description: "Please enter your camera's password", required: false, displayDuringSetup: true)
-	}
     
 	simulator {
     
